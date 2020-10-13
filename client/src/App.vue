@@ -1,0 +1,18 @@
+<template>
+  <component :is="layout">
+    <router-view />
+  </component>
+</template>
+
+<script>
+const defaultLayout = 'admin'
+
+export default {
+  name: 'App',
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || defaultLayout) + "-layout"
+    }
+  },
+}
+</script>
