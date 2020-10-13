@@ -5,9 +5,7 @@
       <Header></Header>
       <main class='main-content bgc-grey-100'>
         <div id='mainContent'>
-          <div class="row gap-20 masonry pos-r">
-            <slot />
-          </div>
+          <slot />
         </div>
       </main>
       <Footer></Footer>
@@ -18,6 +16,7 @@
 <script>
 import '@/assets/admin/styles/index.scss'
 import '@/assets/admin/styles/index.js'
+import '@/assets/admin/scripts/index.js'
 import 'bootstrap'
 
 import Header from '@/components/admin/layouts/Header'
