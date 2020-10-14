@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import 'bootstrap'
 
 // Layouts
 import AdminLayout from '@/views/layouts/Admin'
@@ -12,6 +13,10 @@ import FrontendLayout from '@/views/layouts/Frontend'
 Vue.component('admin-layout', AdminLayout)
 Vue.component('auth-layout', AuthLayout)
 Vue.component('frontend-layout', FrontendLayout)
+
+// EventBus
+import { EventBus } from '@/services/eventService'
+Vue.prototype.$eventBus = EventBus
 
 // Axios
 import axios from 'axios'

@@ -6,7 +6,8 @@ const blogSchema = mongoose.Schema({
   title: { type: String, required: [true, 'Blog title is required'] },
   content: { type: String, required: [true, 'Blog content is required'] },
   likes_count: { type: Integer, default: 0 },
-  comments_count: { type: Integer, default: 0 },
+  comments_count: { type: Integer, default: 0 }
+}, {
   timestamps: true
 })
 

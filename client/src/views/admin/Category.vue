@@ -7,398 +7,23 @@
             <div class="bgc-grey-100 peers ai-c jc-sb p-20 fxw-nw">
               <div class="peer">
                 <div class="btn-group" role="group">
-                  <button type="button" class="email-side-toggle d-n@md+ btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-menu"></i>
-                  </button>
-                  <button type="button" class="btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-folder"></i>
-                  </button>
-                  <button type="button" class="btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-tag"></i>
-                  </button>
-                  <div class="btn-group" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn cur-p bgc-white no-after dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="ti-more-alt"></i>
-                    </button>
-                    <ul class="dropdown-menu fsz-sm" aria-labelledby="btnGroupDrop1">
-                      <li>
-                        <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
-                          <i class="ti-trash mR-10"></i>
-                          <span>Delete</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
-                          <i class="ti-alert mR-10"></i>
-                          <span>Mark as Spam</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
-                          <i class="ti-star mR-10"></i>
-                          <span>Star</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-angle-left'" />
+                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-angle-right'" />
                 </div>
               </div>
               <div class="peer">
                 <div class="btn-group" role="group">
-                  <button type="button" class="fsz-xs btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-angle-left"></i>
-                  </button>
-                  <button type="button" class="fsz-xs btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-angle-right"></i>
-                  </button>
+                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-plus'" :event="'loadCategoryForm'" />
                 </div>
               </div>
             </div>
           </div>
-          <div class="layer w-100">
-            <div class="bdT bdB">
-              <input type="text" class="form-control m-0 bdw-0 pY-15 pX-20" placeholder="Search...">
-            </div>
-          </div>
-          <div class="layer w-100 fxg-1 scrollable pos-r">
-            <div class="">
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-              <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
-                <div class="peer mR-10">
-                  <div class="checkbox checkbox-circle checkbox-info peers ai-c">
-                    <input type="checkbox" id="inputCall1" name="inputCheckboxesCall" class="peer">
-                    <label for="inputCall1" class=" peers peer-greed js-sb ai-c"></label>
-                  </div>
-                </div>
-                <div class="peer peer-greed ov-h">
-                  <div class="peers ai-c">
-                    <div class="peer peer-greed">
-                      <h6>John Doe</h6>
-                    </div>
-                    <div class="peer">
-                      <small>1 min ago</small>
-                    </div>
-                  </div>
-                  <h5 class="fsz-def tt-c c-grey-900">title goes here</h5>
-                  <span class="whs-nw w-100 ov-h tov-e d-b">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <SearchBar />
+          <ItemList :items="items" />
         </div>
         <div class="email-content h-100">
           <div class="h-100 scrollable pos-r">
-            <div class="bgc-grey-100 peers ai-c jc-sb p-20 fxw-nw d-n@md+">
-              <div class="peer">
-                <div class="btn-group" role="group">
-                  <button type="button" class="back-to-mailbox btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-angle-left"></i>
-                  </button>
-                  <button type="button" class="btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-folder"></i>
-                  </button>
-                  <button type="button" class="btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-tag"></i>
-                  </button>
-                  <div class="btn-group" role="group">
-                    <button id="btnGroupDrop1" type="button" class="btn cur-p bgc-white no-after dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="ti-more-alt"></i>
-                    </button>
-                    <ul class="dropdown-menu fsz-sm" aria-labelledby="btnGroupDrop1">
-                      <li>
-                        <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
-                          <i class="ti-trash mR-10"></i>
-                          <span>Delete</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
-                          <i class="ti-alert mR-10"></i>
-                          <span>Mark as Spam</span>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
-                          <i class="ti-star mR-10"></i>
-                          <span>Star</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="peer">
-                <div class="btn-group" role="group">
-                  <button type="button" class="fsz-xs btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-angle-left"></i>
-                  </button>
-                  <button type="button" class="fsz-xs btn bgc-white bdrs-2 mR-3 cur-p">
-                    <i class="ti-angle-right"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="email-content-wrapper">
-              <!-- Header -->
-              <div class="peers ai-c jc-sb pX-40 pY-30">
-                <div class="peers peer-greed">
-                  <div class="peer mR-20">
-                    <img class="bdrs-50p w-3r h-3r" alt="" src="https://randomuser.me/api/portraits/men/11.jpg">
-                  </div>
-                  <div class="peer">
-                    <small>Nov, 02 2017</small>
-                    <h5 class="c-grey-900 mB-5">John Doe</h5>
-                    <span>To: email@gmail.com</span>
-                  </div>
-                </div>
-                <div class="peer">
-                  <a href="" class="btn btn-danger bdrs-50p p-15 lh-0">
-                    <i class="fa fa-reply"></i>
-                  </a>
-                </div>
-              </div>
-
-              <!-- Content -->
-              <div class="bdT pX-40 pY-30">
-                <h4>Title of this email goes here</h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
-                </p>
-              </div>
-            </div>
+            <CategoryForm v-if="showForm == true" v-bind:categoryData="selectedCategory" />
           </div>
         </div>
       </div>
@@ -406,7 +31,82 @@
   </div>
 </template>
 <script>
+import ItemList from '@/components/admin/common/ItemList'
+import SearchBar from '@/components/admin/common/SearchBar'
+import Button from '@/components/admin/common/Button'
+import CategoryService from '@/services/CategoryService'
+
 export default {
-  name: 'Admin-Category'
+  name: 'Admin-Category',
+  data() {
+    return {
+      items: [],
+      showForm: false,
+      selectedCategory: {}
+    }
+  },
+  mounted() {
+    this.getCategories()
+    this.$eventBus.$on('SearchChanged', searchText => {
+      if (searchText.length > 0) {
+        this.fetchCategories(searchText)
+      } else {
+        this.getCategories()
+      }
+    })
+    this.$eventBus.$on('loadCategoryForm', () => {
+      this.selectedCategory = {}
+      this.showForm = true
+    })
+    this.$eventBus.$on('closeCategoryForm', () => {
+      this.selectedCategory = {}
+      this.showForm = false
+    })
+    this.$eventBus.$on('categoryCreated', data => {
+      this.showForm = false
+      this.items.unshift(data)
+      this.selectedCategory = {}
+    })
+    this.$eventBus.$on('categoryUpdated', data => {
+      this.showForm = false
+      this.selectedCategory = {}
+    })
+  },
+  methods: {
+    getCategories: function() {
+      CategoryService.getAll().then(response => {
+        this.items = response.data
+        console.log(response.data)
+      }).catch(err => console.log(err) )
+    },
+    fetchCategories: function(searchText) {
+      CategoryService.search(searchText).then(response => {
+        this.items = response.data
+      }).catch(err => console.log(err) )
+    },
+    editItem: function(category) {
+      this.selectedCategory = category
+      this.showForm = true
+    },
+    deleteItem: function(category) {
+      let categoryItem = this.items.filter(function(item){
+        return item._id == category._id;
+      })[0]
+      console.log(categoryItem)
+      if (categoryItem) {
+        CategoryService.delete(category._id).then(response => {
+          this.items.splice(this.items.indexOf(categoryItem), 1);
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    }
+  },
+  components: {
+    ItemList,
+    SearchBar,
+    Button,
+    CategoryForm: () => import(/* webpackPrefetch: true */ '@/components/admin/categories/Form')
+  }
 }
 </script>

@@ -29,7 +29,8 @@ const categorySchema = mongoose.Schema({
       ref: 'Blog' 
     }
   ]
-  
+}, {
+  timestamps: true
 })
 
 const Category = mongoose.model('Category', categorySchema)

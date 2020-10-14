@@ -50,10 +50,10 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class='sidebar-link' href="/admin/categories">Categories</a>
+              <router-link to="/admin/categories" class='sidebar-link'>Categories</router-link>
             </li>
             <li>
-              <a class='sidebar-link' href="/admin/blogs">Blogs</a>
+              <router-link to="/admin/blogs" class='sidebar-link'>Blogs</router-link>
             </li>
           </ul>
         </li>
