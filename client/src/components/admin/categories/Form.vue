@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import CategoryService from '@/services/CategoryService'
+import CategoryService from '@/services/categoryService'
 export default {
   name: 'CategoryForm',
   props: ['categoryData'],

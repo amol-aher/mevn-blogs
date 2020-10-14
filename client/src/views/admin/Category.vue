@@ -34,7 +34,7 @@
 import ItemList from '@/components/admin/common/ItemList'
 import SearchBar from '@/components/admin/common/SearchBar'
 import Button from '@/components/admin/common/Button'
-import CategoryService from '@/services/CategoryService'
+import CategoryService from '@/services/categoryService'
 
 export default {
   name: 'Admin-Category',
