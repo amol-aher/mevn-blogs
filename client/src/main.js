@@ -3,7 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueTimeago from 'vue-timeago'
+import VueSimplemde from 'vue-simplemde'
+
 import 'bootstrap'
+import 'simplemde/dist/simplemde.min.css'
 
 // Layouts
 import AdminLayout from '@/views/layouts/Admin'
@@ -13,6 +17,9 @@ import FrontendLayout from '@/views/layouts/Frontend'
 Vue.component('admin-layout', AdminLayout)
 Vue.component('auth-layout', AuthLayout)
 Vue.component('frontend-layout', FrontendLayout)
+Vue.component('vue-simplemde', VueSimplemde)
+
+Vue.use(VueTimeago, { name: 'Timeago', locale: 'en' })
 
 // EventBus
 import { EventBus } from '@/services/eventService'

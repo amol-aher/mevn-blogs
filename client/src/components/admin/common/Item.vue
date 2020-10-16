@@ -18,7 +18,7 @@
           </small>
         </div>
       </div>
-      <span class="whs-nw w-100 ov-h tov-e d-b">{{ item.description }}</span>
+      <span class="whs-nw w-100 ov-h tov-e d-b"><timeago :datetime="item.createdAt"></timeago></span>
     </div>
   </div>
 </template>

@@ -76,7 +76,6 @@ export default {
     getCategories: function() {
       CategoryService.getAll().then(response => {
         this.items = response.data
-        console.log(response.data)
       }).catch(err => console.log(err) )
     },
     fetchCategories: function(searchText) {

@@ -21,14 +21,8 @@ const categorySchema = mongoose.Schema({
   show_on_website: { 
     type: Boolean, 
     default: true 
-  },
+  }
   
-  blogs: [
-    { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: 'Blog' 
-    }
-  ]
 }, {
   timestamps: true
 })
