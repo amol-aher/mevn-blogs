@@ -5,7 +5,7 @@
       <Header></Header>
       <main class='main-content bgc-grey-100'>
         <div id='mainContent'>
-          <router-view></router-view>
+          <slot />
         </div>
       </main>
       <Footer></Footer>

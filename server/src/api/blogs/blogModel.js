@@ -41,13 +41,17 @@ const blogSchema = mongoose.Schema({
   timestamps: true
 })
 
-blogSchema.pre('save', async function() {
-  console.log('Pre savce')
+blogSchema.virtual('comments', {
+  ref: 'Comment',
+  localField: '_id',
+  foreignField: 'refId',
+  match: (doc) => {
+    return {refModel: 'Blog'};
+  }
 });
 
-blogSchema.post('save', async function(blog) {
-  console.log('called')
-})
+blogSchema.set('toObject', { virtuals: true });
+blogSchema.set('toJSON', { virtuals: true });
 
 const Blog = mongoose.model('Blog', blogSchema)
 module.exports = Blog

@@ -2,12 +2,12 @@ import {HTTP} from './httpCommon';
 const RESOURCE_NAME = 'blogs'
 
 export default {
-  async getAll() {
-    return HTTP.get(`${RESOURCE_NAME}`)
+  async getAll(page = 0) {
+    return HTTP.get(`${RESOURCE_NAME}?page=${page}`)
   },
 
-  async search(searchText) {
-    return HTTP.get(`${RESOURCE_NAME}/search/${searchText}`);
+  async search(searchText, page = 0) {
+    return HTTP.get(`${RESOURCE_NAME}/search/${searchText}/${page}`);
   },
   
   async get(id) {
@@ -19,7 +19,7 @@ export default {
   },
 
   async update(id, data) {
-    return HTTP.put(`${RESOURCE_NAME}/${id}`, data);
+    return HTTP.patch(`${RESOURCE_NAME}/${id}`, data);
   },
 
   async delete(id) {

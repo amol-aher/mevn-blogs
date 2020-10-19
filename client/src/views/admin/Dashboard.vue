@@ -7,8 +7,7 @@
 export default {
   name: 'Admin-Dashboard',
   created() {
-    console.log('created')
-    this.$forceUpdate();
+    // this.$forceUpdate();
   }
 }
 </script>

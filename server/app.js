@@ -17,7 +17,8 @@ mongoose.connect(config.database, {useNewUrlParser: true, useUnifiedTopology: tr
 })
 
 var corsOptions = {
-  origin: "http://localhost:8080"
+  origin: "http://localhost:8080",
+  optionsSuccessStatus: 200
 }
 
 app.use(morgan('combined'))
@@ -33,6 +34,9 @@ app.use('/categories', categoryRouter)
 
 const blogRouter = require('./src/api/blogs/blogRoute')
 app.use('/blogs', blogRouter)
+
+const commentRouter = require('./src/api/comments/commentRoute')
+app.use('/comments', commentRouter)
 
 app.listen(PORT, () => {
   console.log(`App is running on ${PORT}`)

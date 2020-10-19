@@ -20,4 +20,16 @@ router.put('/:id', [
   check('content').trim().escape().not().isEmpty().withMessage('Blog content is required'),
 ],auth, blogsController.update)
 
+router.get('/:id', [
+  check('id').trim().escape().isMongoId().withMessage('ID is not mongoID'),
+], auth, blogsController.show)
+
+router.get('/search/:searchText/:page', [
+  check('searchText').trim().escape().isLength({min: 3}).withMessage('Search query required with minimum 3 characters'),
+], auth, blogsController.search)
+
+router.delete('/:id', [
+  check('id').trim().escape().isMongoId().withMessage('ID is not mongoID'),
+], auth, blogsController.destroy)
+
 module.exports = router

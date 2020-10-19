@@ -13,11 +13,6 @@ const categorySchema = mongoose.Schema({
     required: [true, 'Category title is required'] 
   },
   
-  description: { 
-    type: String, 
-    default: '' 
-  },
-  
   show_on_website: { 
     type: Boolean, 
     default: true 

@@ -7,23 +7,25 @@
             <div class="bgc-grey-100 peers ai-c jc-sb p-20 fxw-nw">
               <div class="peer">
                 <div class="btn-group" role="group">
-                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-angle-left'" />
-                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-angle-right'" />
+                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-reload'" :event="'reload'" />
+                  <Paginate :pagesCount="categoriesData.totalPages" :currPage="categoriesData.currentPage" />
                 </div>
               </div>
               <div class="peer">
                 <div class="btn-group" role="group">
-                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-plus'" :event="'loadCategoryForm'" />
+                  <router-link :to="{ name: 'new_category' }" class='fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'>
+                    <i class="ti-plus"></i>
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
           <SearchBar />
-          <ItemList :items="items" />
+          <CategoryList :categories="categoriesData.categories" />
         </div>
         <div class="email-content h-100">
           <div class="h-100 scrollable pos-r">
-            <CategoryForm v-if="showForm == true" v-bind:categoryData="selectedCategory" />
+            <router-view :key="$route.fullPath"/>
           </div>
         </div>
       </div>
@@ -31,81 +33,99 @@
   </div>
 </template>
 <script>
-import ItemList from '@/components/admin/common/ItemList'
+import CategoryList from '@/components/admin/categories/List'
 import SearchBar from '@/components/admin/common/SearchBar'
 import Button from '@/components/admin/common/Button'
 import CategoryService from '@/services/categoryService'
 
 export default {
   name: 'Admin-Category',
+
   data() {
     return {
-      items: [],
-      showForm: false,
-      selectedCategory: {}
+      categoriesData: {
+        categories: [],
+        totalPages: 1  ,
+        currentPage: 0
+      }
     }
   },
   mounted() {
     this.getCategories()
     this.$eventBus.$on('SearchChanged', searchText => {
-      if (searchText.length > 0) {
+      if (searchText.length >= 3) {
         this.fetchCategories(searchText)
-      } else {
+      } else if (searchText.length == 0) {
         this.getCategories()
       }
     })
-    this.$eventBus.$on('loadCategoryForm', () => {
-      this.selectedCategory = {}
-      this.showForm = true
-    })
+
     this.$eventBus.$on('closeCategoryForm', () => {
-      this.selectedCategory = {}
-      this.showForm = false
+      let firstCategory = this.categoriesData.categories[0]
+      if (firstCategory) {
+        this.$router.push({ name: 'show_category', params: { category_id: firstCategory._id }}).catch(err => {})
+      }
     })
-    this.$eventBus.$on('categoryCreated', data => {
-      this.showForm = false
-      this.items.unshift(data)
-      this.selectedCategory = {}
+
+    this.$eventBus.$on('categoryCreated', category => {
+      this.getCategories()
+      this.$router.push({ name: 'show_category', params: { category_id: category._id }}).catch(err => {})
     })
-    this.$eventBus.$on('categoryUpdated', data => {
-      this.showForm = false
-      this.selectedCategory = {}
+
+    this.$eventBus.$on('categoryUpdated', category => {
+      this.getCategories()
+      this.$router.push({ name: 'show_category', force: true, params: { category_id: category._id }}).catch(err => {})
     })
+    
+    this.$eventBus.$on('reload', () => {
+      this.getCategories()
+    })
+
+    this.$eventBus.$on('paginate', pageNum => {
+      this.getCategories(pageNum)
+    })
+
   },
+
   methods: {
-    getCategories: function() {
-      CategoryService.getAll().then(response => {
-        this.items = response.data
+    getCategories: function(page = this.currentPage) {
+      CategoryService.getAll(page).then(response => {
+        this.categoriesData = response.data
       }).catch(err => console.log(err) )
     },
+
     fetchCategories: function(searchText) {
-      CategoryService.search(searchText).then(response => {
-        this.items = response.data
-      }).catch(err => console.log(err) )
+      this.categoriesData.currentPage = 0
+      CategoryService.search(searchText, this.categoriesData.currentPage).then(response => {
+        this.categoriesData = response.data
+      }).catch(err => {} )
     },
+
     editItem: function(category) {
-      this.selectedCategory = category
-      this.showForm = true
+      this.$router.push({ name: 'edit_category', force: true, params: { category_id: category._id }}).catch(err => {})
     },
+
+    showItem: function(category) {
+      this.$router.push({ name: 'show_category', params: { category_id: category._id }}).catch(err => {})
+    },
+
     deleteItem: function(category) {
-      let categoryItem = this.items.filter(function(item){
-        return item._id == category._id;
-      })[0]
-      console.log(categoryItem)
-      if (categoryItem) {
+      if (confirm('Are you sure to delete this category?')) {
         CategoryService.delete(category._id).then(response => {
-          this.items.splice(this.items.indexOf(categoryItem), 1);
+          this.getCategories()
+          this.$router.push({ name: 'categories_index'}).catch(err => {})
         }).catch(err => {
           console.log(err)
         })
-      }
+      }      
     }
   },
+
   components: {
-    ItemList,
+    CategoryList,
     SearchBar,
     Button,
-    CategoryForm: () => import(/* webpackPrefetch: true */ '@/components/admin/categories/Form')
+    Paginate: () => import(/* webpackPrefetch: true */ '@/components/admin/common/Paginate')
   }
 }
 </script>

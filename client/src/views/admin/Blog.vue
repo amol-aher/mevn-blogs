@@ -7,23 +7,25 @@
             <div class="bgc-grey-100 peers ai-c jc-sb p-20 fxw-nw">
               <div class="peer">
                 <div class="btn-group" role="group">
-                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-angle-left'" />
-                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-angle-right'" />
+                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-reload'" :event="'reload'" />
+                  <Paginate :pagesCount="blogsData.totalPages" :currPage="blogsData.currentPage" />
                 </div>
               </div>
               <div class="peer">
                 <div class="btn-group" role="group">
-                  <Button :btnClass="'fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'" :iconClass="'ti-plus'" :event="'loadBlogForm'" />
+                  <router-link :to="{ name: 'new_blog' }" class='fsz-xs btn bgc-white bdrs-2 mR-3 cur-p'>
+                    <i class="ti-plus"></i>
+                  </router-link>
                 </div>
               </div>
             </div>
           </div>
           <SearchBar />
-          <ItemList :items="items" />
+          <BlogList :blogs="blogsData.blogs" />
         </div>
         <div class="email-content h-100">
           <div class="h-100 scrollable pos-r">
-            <BlogForm v-if="showForm === true" :blogData="selectedBlog" />
+            <router-view :key="$route.fullPath"/>
           </div>
         </div>
       </div>
@@ -31,85 +33,97 @@
   </div>
 </template>
 <script>
-import ItemList from '@/components/admin/common/ItemList'
+import BlogList from '@/components/admin/blogs/List'
 import SearchBar from '@/components/admin/common/SearchBar'
 import Button from '@/components/admin/common/Button'
 import BlogService from '@/services/blogService'
 
 export default {
   name: 'Admin-Blog',
+
   data() {
     return {
-      items: [],
-      showForm: false,
-      selectedBlog: {}
+      blogsData: {
+        blogs: [],
+        totalPages: 1  ,
+        currentPage: 0
+      }
     }
   },
   mounted() {
     this.getBlogs()
     this.$eventBus.$on('SearchChanged', searchText => {
-      if (searchText.length > 0) {
+      if (searchText.length >= 3) {
         this.fetchBlogs(searchText)
-      } else {
+      } else if (searchText.length == 0) {
         this.getBlogs()
       }
     })
-    this.$eventBus.$on('loadBlogForm', () => {
-      this.createItem()
-    })
+
     this.$eventBus.$on('closeBlogForm', () => {
-      this.selectedBlog = {}
-      this.showForm = false
+      let firstBlog = this.blogsData.blogs[0]
+      if (firstBlog) {
+        this.$router.push({ name: 'show_blog', params: { blog_id: firstBlog._id }}).catch(err => {})
+      }
     })
-    this.$eventBus.$on('blogCreated', data => {
-      this.showForm = false
-      this.items.unshift(data)
-      this.selectedBlog = {}
+
+    this.$eventBus.$on('blogCreated', blog => {
+      this.getBlogs()
+      this.$router.push({ name: 'show_blog', params: { blog_id: blog._id }}).catch(err => {})
     })
-    this.$eventBus.$on('blogUpdated', data => {
-      this.showForm = false
-      this.selectedBlog = {}
+
+    this.$eventBus.$on('blogUpdated', blog => {
+      this.getBlogs()
+      this.$router.push({ name: 'show_blog', force: true, params: { blog_id: blog._id }}).catch(err => {})
     })
+    
+    this.$eventBus.$on('reload', () => {
+      this.getBlogs()
+    })
+
+    this.$eventBus.$on('paginate', pageNum => {
+      this.getBlogs(pageNum)
+    })
+
   },
+
   methods: {
-    getBlogs: function() {
-      BlogService.getAll().then(response => {
-        this.items = response.data
-      }).catch(err => console.log(err) )
+    getBlogs: function(page = this.currentPage) {
+      BlogService.getAll(page).then(response => {
+        this.blogsData = response.data
+      }).catch(err => { console.log(err) } )
     },
+
     fetchBlogs: function(searchText) {
-      BlogService.search(searchText).then(response => {
-        this.items = response.data
-      }).catch(err => console.log(err) )
+      this.categoriesData.currentPage = 0
+      BlogService.search(searchText, this.categoriesData.currentPage).then(response => {
+        this.blogsData = response.data
+      }).catch(err => {} )
     },
-    createItem: function() {
-      this.showForm = false
-      this.selectedBlog = {}
-      this.showForm = true
-    },
+
     editItem: function(blog) {
-      this.showForm = false
-      this.selectedBlog = blog
-      this.showForm = true
+      this.$router.push({ name: 'edit_blog', force: true, params: { blog_id: blog._id }}).catch(err => {})
     },
+
+    showItem: function(blog) {
+      this.$router.push({ name: 'show_blog', params: { blog_id: blog._id }}).catch(err => {})
+    },
+
     deleteItem: function(blog) {
-      let blogItem = this.items.filter(function(item){
-        return item._id == category._id;
-      })[0]
-      if (blogItem) {
+      if (confirm('Are you sure to delete this blog?')) {
         BlogService.delete(blog._id).then(response => {
-          this.items.splice(this.items.indexOf(blogItem), 1);
-        }).catch(err => {
-          console.log(err)
-        })
+          this.getBlogs()
+          this.$router.push({ name: 'blogs_index'}).catch(err => {})
+        }).catch(err => { console.log(err) } )
       }
     }
   },
+
   components: {
-    ItemList,
+    BlogList,
     SearchBar,
     Button,
-    BlogForm: () => import(/* webpackPrefetch: true */ '@/components/admin/blogs/Form')
+    Paginate: () => import(/* webpackPrefetch: true */ '@/components/admin/common/Paginate')
   }
 }
 </script>

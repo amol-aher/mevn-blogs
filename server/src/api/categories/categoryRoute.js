@@ -13,11 +13,11 @@ router.get('/:id', [
   check('id').trim().escape().isMongoId().withMessage('ID is not mongoID'),
 ], auth, categoriesController.show)
 
-router.get('/search/:searchText', [
+router.get('/search/:searchText/:page', [
   check('searchText').trim().escape().isLength({min: 3}).withMessage('Search query required with minimum 3 characters'),
 ], auth, categoriesController.search)
 
-router.put('/:id', [
+router.patch('/:id', [
   check('id').trim().escape().isMongoId().withMessage('ID is not mongoID'),
   check('title').trim().escape().isLength({min: 3, max: 150}).withMessage('Title must be between 3 to 150 characters'),
 ], auth, categoriesController.update)
