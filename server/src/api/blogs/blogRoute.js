@@ -13,7 +13,7 @@ router.post('/', [
   check('content').trim().escape().not().isEmpty().withMessage('Blog content is required'),
 ],auth, blogsController.create)
 
-router.put('/:id', [
+router.patch('/:id', [
   check('title').isLength({min:10, max:150}).trim().escape().withMessage('Title must be between 10 to 150 characters'),
   check('category').not().isEmpty().withMessage('Category is required'),
   check('description').trim().escape().not().isEmpty().withMessage('Blog description is required'),
@@ -23,10 +23,6 @@ router.put('/:id', [
 router.get('/:id', [
   check('id').trim().escape().isMongoId().withMessage('ID is not mongoID'),
 ], auth, blogsController.show)
-
-router.get('/search/:searchText/:page', [
-  check('searchText').trim().escape().isLength({min: 3}).withMessage('Search query required with minimum 3 characters'),
-], auth, blogsController.search)
 
 router.delete('/:id', [
   check('id').trim().escape().isMongoId().withMessage('ID is not mongoID'),

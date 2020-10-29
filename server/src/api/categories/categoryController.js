@@ -3,12 +3,22 @@ const appConfig = require('../../../config/appConfig')
 const { validationResult } = require('express-validator');
 
 exports.index = async (req, res) => {
-  var perPage = appConfig.pagination.perPage, page = Math.max(0, req.query.page)
+  let reqData = queryOptions(req)
   try {
-    await Category.find({user: req.userData._id}).sort({createdAt: -1}).limit(perPage).skip(perPage * page).exec(function(err, categories) {
-      Category.countDocuments({user: req.userData._id}).exec(function(err, count) {
-        res.status(200).send({categories: categories, currentPage: page, totalPages: Math.floor(count / perPage)})
+    await Category.find(reqData.query, {}, reqData.options).exec(function(err, categories) {
+      Category.countDocuments(reqData.query).exec(function(err, count) {
+        res.status(200).send({list: categories, totalPages: Math.ceil(count / reqData.options.limit), totalEntries: count})
       })
+    })
+  } catch( error ) {
+    res.status(400).send({ error: error })
+  }
+}
+
+exports.allCategories = async (req, res) => {
+  try {
+    await Category.find({ user: req.userData._id }).exec(function(err, categories) {
+      res.status(200).send({list: categories})
     })
   } catch( error ) {
     res.status(400).send({ error: error })
@@ -25,30 +35,8 @@ exports.create = async (req, res) => {
   category.save().then(data => {
     return res.status(201).send(data)
   }).catch(err => {
-    return res.status(500).send({ message: err.message || "Some error occurred while creating the category" })
+    return res.status(500).send({ errors: { msg: err.message || "Some error occurred while creating the category" }  })
   })
-}
-
-exports.search = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).send({ errors: errors.array() })
-  }
-  var perPage = appConfig.pagination.perPage, page = Math.max(0, req.query.page)
-  const searchRegex = new RegExp(req.params.searchText, "i")
-  const query = { title: searchRegex, user: req.userData._id }
-  const options = { sort: { createdAt: -1 }, limit: 10 }
-  
-  try {
-    await Category.find(query, {}, options).limit(perPage).skip(perPage * page).exec(function(err, categories) {
-      Category.countDocuments({user: req.userData._id}).exec(function(err, count) {
-        return res.status(200).send({categories: categories, currentPage: page, totalPages: Math.floor(count / perPage)})
-      })
-    })
-  } catch( error ) {
-    return res.status(400).send({ error: error })
-  }
-
 }
 
 exports.show = async (req, res) => {
@@ -99,4 +87,36 @@ exports.destroy = async (req, res) => {
   }).catch(err => {
     return res.status(500).send({ message: err.message || 'Could not delete category with id ' + id })
   })
+}
+
+function queryOptions(req) {
+  var queryParams = {}
+
+  if ( req.query.reqParams ) {
+    queryParams = JSON.parse(req.query.reqParams)
+  }
+  
+  const query = {
+    ...( { user: req.userData._id } ),
+    ...( queryParams.search ?
+      { title: new RegExp(queryParams.search, "i") } : {  }
+    )
+  }
+
+  const options = {
+    ...( queryParams.sorting ? 
+      { sort: { [queryParams.sorting.sortKey]: queryParams.sorting.sortOrder } } : 
+      { sort: { createdAt: -1 } } 
+    ),
+    ...( queryParams.limit ? 
+      { limit: parseInt(queryParams.limit) } : 
+      { limit: appConfig.pagination.perPage } 
+    ),
+    ...( (queryParams.limit && queryParams.pagination) ? 
+      { skip: (queryParams.limit * queryParams.pagination.currentPage) - queryParams.limit } : 
+      { skip: (appConfig.pagination.perPage * queryParams.pagination.currentPage) - appConfig.pagination.perPage } 
+    )
+  }
+
+  return { query: query, options: options }
 }

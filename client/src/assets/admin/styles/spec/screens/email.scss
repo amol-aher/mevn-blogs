@@ -28,7 +28,7 @@
     }
 
     @include from($breakpoint-md) {
-      margin-left: 0px;
+      margin-left: 250px;
     }
 
     .email-list {
@@ -44,7 +44,7 @@
       }
 
       @include from($breakpoint-md) {
-        width: 25%;
+        width: 40%;
         border-right: 1px solid $border-color;
         float: left;
       }
@@ -52,7 +52,7 @@
 
     .email-content {
       float: left;
-      width: 75%;
+      width: 60%;
       position: relative;
       padding: 0;
       background-color: $default-white;

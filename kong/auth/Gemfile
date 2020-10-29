@@ -1,0 +1,8 @@
+source 'http://rubygems.org'
+git_source(:github) { |repo| "http://github.com/#{repo}.git" }
+
+gem 'sinatra'
+gem 'jwt'
+gem 'json'
+gem 'mongoid'
+gem 'bcrypt'

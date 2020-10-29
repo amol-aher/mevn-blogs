@@ -3,19 +3,15 @@ const appConfig = require('../../../config/appConfig')
 const {validationResult } = require('express-validator');
 
 exports.index = async (req, res) => {
-  var perPage = appConfig.pagination.perPage, page = Math.max(0, req.query.page)
+  let reqData = queryOptions(req)
   try {
-    await Blog.find({user: req.userData._id}).sort({createdAt: -1}).populate({
-      path: 'category',
-      select: '_id title show_on_website createdAt updatedAt',
-      model:'Category'
-    }).populate('comments').limit(perPage).skip(perPage * page).exec(function(err, blogs) {
-      Blog.countDocuments({user: req.userData._id}).exec(function(err, count) {
-        res.status(200).send({blogs: blogs, currentPage: page, totalPages: Math.floor(count / perPage)})
+    await Blog.find(reqData.query, {}, reqData.options).exec(function(err, blogs) {
+      Blog.countDocuments(reqData.query).exec(function(err, count) {
+        res.status(200).send({list: blogs, totalPages: Math.ceil(count / reqData.options.limit), totalEntries: count})
       })
     })
   } catch( error ) {
-    res.status(400).send({ error: error.message })
+    res.status(400).send({ error: error })
   }
 }
 
@@ -29,30 +25,8 @@ exports.create = async (req, res) => {
   blog.save().then(data => {
     return res.status(201).send(data)
   }).catch(err => {
-    return res.status(500).send({ message: err.message || "Some error occurred while creating the blog." })
+    return res.status(500).send({ errors: { msg: err.message || "Some error occurred while creating the blog" }  })
   })
-}
-
-exports.search = async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() })
-  }
-  var perPage = appConfig.pagination.perPage, page = Math.max(0, req.query.page)
-  const searchRegex = new RegExp(req.params.searchText, "i")
-  const query = { title: searchRegex, user: req.userData._id }
-  const options = { sort: { createdAt: -1 }, limit: 10 }
-  
-  try {
-    await Blog.find(query, {}, options).limit(perPage).skip(perPage * page).exec(function(err, blogs) {
-      Blog.countDocuments(query).exec(function(err, count) {
-        return res.status(200).send({blogs: blogs, currentPage: page, totalPages: Math.floor(count / perPage)})
-      })
-    })
-  } catch( error ) {
-    return res.status(400).send({ error: error })
-  }
-
 }
 
 exports.update = async (req, res) => {
@@ -66,10 +40,10 @@ exports.update = async (req, res) => {
     if (blog) {
       return res.send(blog)  
     } else {
-      return res.status(404).send({ message: 'Blog not found with id ' + id })
+      return res.status(404).send({ errors: [ { msg: 'Blog not found with id ' + id } ] })
     }
   }).catch(err => {
-    return res.status(500).send({ message: err.message || 'Error updating blog with id ' + id })
+    return res.status(500).send({ errors: [ { msg: err.message || 'Error updating blog with id ' + id } ] })
   })
 }
 
@@ -103,4 +77,32 @@ exports.destroy = async (req, res) => {
   }).catch(err => {
     return res.status(500).send({ message: err.message || 'Could not delete blog with id ' + id })
   })
+}
+
+function queryOptions(req) {
+  let queryParams = JSON.parse(req.query.reqParams)
+  
+  const query = {
+    ...( { user: req.userData._id } ),
+    ...( queryParams.search ?
+      { title: new RegExp(queryParams.search, "i") } : {  }
+    )
+  }
+
+  const options = {
+    ...( queryParams.sorting ? 
+      { sort: { [queryParams.sorting.sortKey]: queryParams.sorting.sortOrder } } : 
+      { sort: { createdAt: -1 } } 
+    ),
+    ...( queryParams.limit ? 
+      { limit: parseInt(queryParams.limit) } : 
+      { limit: appConfig.pagination.perPage } 
+    ),
+    ...( queryParams.limit ? 
+      { skip: (queryParams.limit * queryParams.pagination.currentPage) - queryParams.limit } : 
+      { skip: (appConfig.pagination.perPage * queryParams.pagination.currentPage) - appConfig.pagination.perPage } 
+    )
+  }
+
+  return { query: query, options: options }
 }

@@ -3,36 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VueTimeago from 'vue-timeago'
+import axios from 'axios'
+import Notifications from 'vue-notification'
 import VueSimplemde from 'vue-simplemde'
-
-import 'bootstrap'
 import 'simplemde/dist/simplemde.min.css'
-
-// Layouts
-import AdminLayout from '@/views/layouts/Admin'
-import AuthLayout from '@/views/layouts/Auth'
-import FrontendLayout from '@/views/layouts/Frontend'
-
-Vue.component('admin-layout', AdminLayout)
-Vue.component('auth-layout', AuthLayout)
-Vue.component('frontend-layout', FrontendLayout)
+import 'highlight.js/styles/atom-one-dark.css'
+import hljs from 'highlight.js'
 Vue.component('vue-simplemde', VueSimplemde)
 
-Vue.use(VueTimeago, { name: 'Timeago', locale: 'en' })
-
-// EventBus
-import { EventBus } from '@/services/eventService'
-Vue.prototype.$eventBus = EventBus
-
-// Axios
-import axios from 'axios'
 const baseConnection = axios.create({
   baseURL: 'http://localhost:8081'
 })
 Vue.prototype.$http = baseConnection
 
 Vue.config.productionTip = false
+
+Vue.use(Notifications)
+window.hljs = hljs
 
 /* eslint-disable no-new */
 new Vue({

@@ -2,8 +2,10 @@ import {HTTP} from './httpCommon';
 const RESOURCE_NAME = 'blogs'
 
 export default {
-  async getAll(page = 0) {
-    return HTTP.get(`${RESOURCE_NAME}?page=${page}`)
+  async getAll(params) {
+    return HTTP.get(`${RESOURCE_NAME}`, { 
+      params
+    })
   },
 
   async search(searchText, page = 0) {
@@ -24,5 +26,9 @@ export default {
 
   async delete(id) {
     return HTTP.delete(`${RESOURCE_NAME}/${id}`);
+  },
+
+  async parentCategories(id) {
+    return HTTP.get(`${RESOURCE_NAME}/parentCategories/${id}`);
   }
 }

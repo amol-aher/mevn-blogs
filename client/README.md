@@ -1,6 +1,6 @@
 # blogclient
 
-> Client app for my blogging system
+> Client app for my blogs
 
 ## Build Setup
 

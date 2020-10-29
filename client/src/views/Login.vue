@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import swal from "sweetalert";
 export default {
   name: 'Login-View',
   data() {
@@ -40,11 +39,9 @@ export default {
         let token = response.data.token
         localStorage.setItem('jwt', token)
         if (token) {
-          swal('Success', 'Login successful', "success")
-          this.$router.push('/admin')
+          window.location.href = '/admin';
         }
       } catch( error ) {
-        swal('Error', 'Something went wrong', 'error')
         console.log(error)
       }
     }

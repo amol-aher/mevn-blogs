@@ -2,8 +2,10 @@ import {HTTP} from './httpCommon';
 const RESOURCE_NAME = 'categories'
 
 export default {
-  async getAll() {
-    return HTTP.get(`${RESOURCE_NAME}`)
+  async getAll(params = {}) {
+    return HTTP.get(`${RESOURCE_NAME}`, { 
+      params
+    })
   },
 
   async search(searchText, page = 0) {
@@ -12,6 +14,10 @@ export default {
   
   async get(id) {
     return HTTP.get(`${RESOURCE_NAME}/${id}`);
+  },
+
+  async getAllCategories() {
+    return HTTP.get(`${RESOURCE_NAME}/all-categories`);
   },
 
   async create(data) {
@@ -24,5 +30,9 @@ export default {
 
   async delete(id) {
     return HTTP.delete(`${RESOURCE_NAME}/${id}`);
+  },
+
+  async parentCategories(id) {
+    return HTTP.get(`${RESOURCE_NAME}/parentCategories/${id}`);
   }
 }

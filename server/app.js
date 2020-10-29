@@ -38,6 +38,9 @@ app.use('/blogs', blogRouter)
 const commentRouter = require('./src/api/comments/commentRoute')
 app.use('/comments', commentRouter)
 
+const guestRouter = require('./src/api/guest/guestRoute')
+app.use('/guest', guestRouter)
+
 app.listen(PORT, () => {
   console.log(`App is running on ${PORT}`)
 })

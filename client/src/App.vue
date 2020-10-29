@@ -1,6 +1,6 @@
 <template>
   <component :is="layout">
-    <router-view />
+    <slot />
   </component>
 </template>
 
@@ -14,5 +14,10 @@ export default {
       return (this.$route.meta.layout || defaultLayout) + "-layout"
     }
   },
+  components: {
+    'admin-layout': () => import(/* webpackPrefetch: true */ '@/views/layouts/Admin'),
+    'auth-layout': () => import(/* webpackPrefetch: true */ '@/views/layouts/Auth'),
+    'frontend-layout': () => import(/* webpackPrefetch: true */ '@/views/layouts/Frontend'),
+  }
 }
 </script>

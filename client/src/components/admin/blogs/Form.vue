@@ -1,33 +1,33 @@
 <template>
-  <div class="email-content-wrapper pY-15">
-    <div class="masonry-item col-md-12">
-      <div class="bgc-white p-20 bd">
-        <h6 class="c-grey-900">{{ formTitle }}</h6>
-        <div class="mT-30">
-          <form>
-            <div class="form-group">
-              <label for="category">Category</label>
-                <select id="category" v-model="blog.category" class="form-control">
-                  <option v-for="item in categories" :value="item._id" :key="item._id" >{{ item.title }}</option>
-                </select>
-            </div>
-            <div class="form-group">
-              <label for="title">Title</label>
-                <input type="text" id="title" class="form-control" placeholder="Title" v-model="blog.title" />
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input type="text" id="description" class="form-control" placeholder="Description" v-model="blog.description" />
-            </div>
-            <div class="form-group">
-              <label for="content">Content</label>
-              <textarea v-model="blog.content" class='form-control' />
-            </div>
-            <button type="button" class="btn btn-primary" @click="$route.params.blog_id ? updateBlog() : createBlog()">Save</button>
-            <button type="button" class="btn cur-p btn-secondary" @click="closeForm">Cancel</button>
-          </form>
+  <div class="bgc-white bd bdrs-3 p-20 mB-20">
+    <h4 class="c-grey-900">{{ formTitle }}</h4>
+    <div class="mT-30">
+      <notifications group="error" />
+      <form>
+        <div class="form-group">
+          <label for="title">Category</label>
+            <select class="form-control" :v-model="blog.category">
+              <option :selected="true">Choose Category</option>
+              <option v-for="option in categories" v-bind:value="option.id" :key="option._id">{{ option.title }}</option>
+            </select>
         </div>
-      </div>
+        <div class="form-group">
+          <label for="title">Title</label>
+            <input type="text" id="title" class="form-control" placeholder="Title" v-model="blog.title" />
+        </div>
+        <div class="form-group">
+          <label for="title">Description</label>
+          <input type="text" id="title" class="form-control" placeholder="Description" v-model="blog.description" />
+        </div>
+        <div class="form-group">
+          <label for="title">Content</label>
+          <vue-simplemde v-model="blog.content" ref="markdownEditor" :highlight="true" />
+        </div>
+        <button type="button" class="btn btn-primary" @click="$route.params.blog_id ? updateBlog() : createBlog()">Save</button>
+        <router-link :to="{ name: 'blogs_index' }" class='btn cur-p btn-secondary'>
+          Cancel
+        </router-link>
+      </form>
     </div>
   </div>
 </template>
@@ -43,19 +43,19 @@ export default {
       categories: []
     }
   },
-  created: function () {
+  mounted() {
+    this.loadCategories()
+  },
+  created: function () {    
     if (this.$route.params.blog_id) {
       BlogService.get(this.$route.params.blog_id).then(response => {
         this.blog = response.data
+      }).catch(err => {
+        if (err) {
+          this.notifyErrors(err.response.data.errors)
+        }
       })
     }
-  },
-  mounted() {
-    CategoryService.getAll().then(response => {
-      this.categories = response.data.categories
-    }).catch(err => {
-      console.log(err)
-    })
   },
   computed: {
     formTitle() {
@@ -65,21 +65,38 @@ export default {
   methods: {
     createBlog() {
       BlogService.create(this.blog).then(response => {
-        this.$eventBus.$emit('blogCreated', response.data)
+        this.$router.push({name: 'blogs_index'})
       }).catch(err => {
-        this.errorMessage = err
+        if (err) {
+          this.notifyErrors(err.response.data.errors)
+        }
       })
     },
     updateBlog() {
       BlogService.update(this.blog._id, this.blog).then(response => {
-        this.$eventBus.$emit('blogUpdated', response.data)
+        this.$router.push({name: 'blogs_index'})
       }).catch(err => {
-        console.log(err.data)
-        this.errorMessage = err
+        if (err) {
+          this.notifyErrors(err.response.data.errors)
+        }
       })
     },
-    closeForm() {
-      this.$eventBus.$emit('closeBlogForm')
+    loadCategories() {
+      CategoryService.getAllCategories().then(response => {
+        this.categories = response.data.list
+      }).catch(err => {
+        this.notifyErrors(err.response.data.errors)
+      })
+    },
+    notifyErrors(newErrors) {
+      newErrors.forEach((value, index) => {
+          this.$notify({
+          group: 'error',
+          title: 'Error',
+          text: value.msg,
+          type: 'error'
+        })
+      })     
     }
   }
 }
